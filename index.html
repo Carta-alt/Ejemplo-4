@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ejemplo 4 | Carta Premium</title>
+  <meta name="description" content="Carta digital premium del restaurante Ejemplo 4" />
+  <style>
+    :root {
+      --bg: #0f0f10;
+      --bg-soft: #171719;
+      --panel: rgba(255,255,255,0.06);
+      --panel-2: rgba(255,255,255,0.09);
+      --line: rgba(255,255,255,0.12);
+      --gold: #d6b36a;
+      --gold-2: #f3d18b;
+      --text: #f5f1e8;
+      --muted: #c8c0b2;
+      --shadow: 0 18px 40px rgba(0,0,0,.35);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --max: 1280px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(214,179,106,0.12), transparent 26%),
+        radial-gradient(circle at bottom right, rgba(214,179,106,0.09), transparent 22%),
+        linear-gradient(180deg, #0a0a0b 0%, #101012 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    img { display: block; max-width: 100%; }
+
+    .container {
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(14px);
+      background: rgba(10,10,11,.6);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      min-height: 76px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(214,179,106,.45);
+      background: linear-gradient(135deg, rgba(214,179,106,.24), rgba(214,179,106,.06));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 8px 22px rgba(214,179,106,.12);
+      color: var(--gold-2);
+      font-size: 18px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-link {
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: var(--muted);
+      border: 1px solid transparent;
+      transition: .25s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--text);
+      border-color: rgba(214,179,106,.28);
+      background: rgba(255,255,255,.04);
+    }
+
+    .hero {
+      padding: 58px 0 24px;
+    }
+
+    .hero-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 34px;
+      border: 1px solid rgba(214,179,106,.18);
+      box-shadow: var(--shadow);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.03)),
+        url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1600&q=80') center/cover;
+      min-height: 520px;
+      display: grid;
+      align-items: end;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(8,8,9,.18) 0%, rgba(8,8,9,.78) 72%, rgba(8,8,9,.95) 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: clamp(28px, 4vw, 48px);
+      display: grid;
+      gap: 18px;
+      max-width: 760px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      width: fit-content;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.08);
+      color: var(--gold-2);
+      font-size: 13px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(2.8rem, 6vw, 5.6rem);
+      line-height: .96;
+      letter-spacing: -0.04em;
+    }
+
+    .hero-text {
+      margin: 0;
+      color: #ece6da;
+      font-size: clamp(1rem, 1.6vw, 1.2rem);
+      line-height: 1.7;
+      max-width: 62ch;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 6px;
+    }
+
+    .btn {
+      appearance: none;
+      border: none;
+      cursor: pointer;
+      padding: 14px 18px;
+      border-radius: 999px;
+      transition: transform .22s ease, box-shadow .22s ease, background .22s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      letter-spacing: .01em;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(0,0,0,.22);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold-2), var(--gold));
+      color: #181512;
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,.08);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,.1);
+    }
+
+    .section {
+      padding: 28px 0 54px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: clamp(1.8rem, 2.6vw, 2.5rem);
+      line-height: 1.05;
+      font-family: Georgia, 'Times New Roman', serif;
+      letter-spacing: -0.03em;
+    }
+
+    .section-subtitle {
+      margin: 8px 0 0;
+      color: var(--muted);
+      max-width: 60ch;
+      line-height: 1.7;
+    }
+
+    .category-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .category-btn {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      width: 100%;
+      border: 1px solid rgba(255,255,255,.08);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      color: var(--text);
+      padding: 18px 18px;
+      border-radius: 22px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+      cursor: pointer;
+      transition: .25s ease;
+      text-align: left;
+    }
+
+    .category-btn:hover,
+    .category-btn.active {
+      border-color: rgba(214,179,106,.34);
+      transform: translateY(-2px);
+      background: linear-gradient(180deg, rgba(214,179,106,.18), rgba(255,255,255,.05));
+    }
+
+    .category-btn small {
+      color: var(--muted);
+      display: block;
+      margin-top: 4px;
+      font-size: .86rem;
+    }
+
+    .category-icon {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.08);
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .menu-layout {
+      display: grid;
+      grid-template-columns: 290px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 94px;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .sidebar-title {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+    }
+
+    .sidebar-text {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: .95rem;
+    }
+
+    .sidebar-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 14px;
+      border-radius: 16px;
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,.06);
+      background: rgba(255,255,255,.03);
+      transition: .22s ease;
+      cursor: pointer;
+    }
+
+    .sidebar-link:hover,
+    .sidebar-link.active {
+      border-color: rgba(214,179,106,.32);
+      background: rgba(214,179,106,.10);
+    }
+
+    .sidebar-link span:last-child {
+      color: var(--muted);
+      font-size: .88rem;
+    }
+
+    .menu-panel {
+      border-radius: 30px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow: var(--shadow);
+      padding: 24px;
+    }
+
+    .menu-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .menu-top h3 {
+      margin: 0;
+      font-size: clamp(1.4rem, 2.4vw, 2rem);
+      font-family: Georgia, 'Times New Roman', serif;
+    }
+
+    .menu-top p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .counter {
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(214,179,106,.24);
+      color: var(--gold-2);
+      background: rgba(214,179,106,.08);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .dish-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 18px;
+    }
+
+    .dish-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 24px;
+      background: rgba(255,255,255,.04);
+      transition: transform .26s ease, border-color .26s ease, box-shadow .26s ease;
+      cursor: pointer;
+    }
+
+    .dish-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(214,179,106,.32);
+      box-shadow: 0 18px 34px rgba(0,0,0,.22);
+    }
+
+    .dish-image-wrap {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+    }
+
+    .dish-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .6s ease;
+    }
+
+    .dish-card:hover .dish-image {
+      transform: scale(1.06);
+    }
+
+    .dish-badge {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(15,15,16,.74);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,.08);
+      color: var(--gold-2);
+      font-size: .8rem;
+      font-weight: 700;
+    }
+
+    .dish-content {
+      padding: 16px 16px 18px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .dish-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .dish-title {
+      margin: 0;
+      font-size: 1.1rem;
+      line-height: 1.3;
+    }
+
+    .dish-price {
+      color: var(--gold-2);
+      font-weight: 800;
+      white-space: nowrap;
+      letter-spacing: .01em;
+    }
+
+    .dish-desc {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: .95rem;
+    }
+
+    .dish-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: .88rem;
+    }
+
+    .mini-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.04);
+    }
+
+    .note-box {
+      margin-top: 18px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(214,179,106,.08);
+      border: 1px solid rgba(214,179,106,.18);
+      color: #efe5cf;
+      line-height: 1.7;
+      font-size: .95rem;
+    }
+
+    .footer {
+      padding: 24px 0 44px;
+      color: var(--muted);
+    }
+
+    .footer-card {
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      padding: 22px;
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .footer strong {
+      color: var(--text);
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 999;
+    }
+
+    .modal.open {
+      display: flex;
+    }
+
+    .modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,.72);
+      backdrop-filter: blur(10px);
+    }
+
+    .modal-card {
+      position: relative;
+      z-index: 2;
+      width: min(980px, 100%);
+      max-height: 90vh;
+      overflow: auto;
+      border-radius: 28px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, #171718, #0f0f10);
+      box-shadow: 0 24px 80px rgba(0,0,0,.42);
+    }
+
+    .modal-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+    }
+
+    .modal-media {
+      min-height: 100%;
+      background: #111;
+    }
+
+    .modal-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      min-height: 380px;
+    }
+
+    .modal-body {
+      padding: 26px;
+      display: grid;
+      align-content: start;
+      gap: 16px;
+    }
+
+    .modal-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .modal-title {
+      margin: 0;
+      font-size: clamp(1.7rem, 3vw, 2.2rem);
+      line-height: 1.08;
+      font-family: Georgia, 'Times New Roman', serif;
+    }
+
+    .close-btn {
+      width: 44px;
+      height: 44px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      color: var(--text);
+      border-radius: 14px;
+      cursor: pointer;
+      flex-shrink: 0;
+      font-size: 20px;
+    }
+
+    .modal-price {
+      color: var(--gold-2);
+      font-weight: 800;
+      font-size: 1.06rem;
+    }
+
+    .modal-desc,
+    .modal-meta {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .ingredients {
+      display: grid;
+      gap: 10px;
+    }
+
+    .ingredients h4,
+    .allergens h4 {
+      margin: 0 0 2px;
+      font-size: .98rem;
+      color: var(--text);
+      letter-spacing: .02em;
+    }
+
+    .ingredient-list,
+    .allergen-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .ingredient-chip,
+    .allergen-chip {
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.08);
+      color: #efe7d7;
+      font-size: .92rem;
+    }
+
+    .allergen-chip {
+      background: rgba(214,179,106,.10);
+      border-color: rgba(214,179,106,.16);
+      color: var(--gold-2);
+    }
+
+    .cta-banner {
+      margin-top: 24px;
+      padding: 20px;
+      border-radius: 22px;
+      border: 1px solid rgba(214,179,106,.16);
+      background: linear-gradient(135deg, rgba(214,179,106,.14), rgba(255,255,255,.04));
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .cta-banner h4 {
+      margin: 0 0 6px;
+      font-size: 1.15rem;
+    }
+
+    .cta-banner p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 1024px) {
+      .menu-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+      }
+
+      .modal-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .topbar-inner {
+        min-height: auto;
+        padding: 14px 0;
+        align-items: start;
+        flex-direction: column;
+      }
+
+      .hero-card {
+        min-height: 460px;
+      }
+
+      .menu-panel,
+      .sidebar {
+        padding: 18px;
+      }
+
+      .dish-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .category-bar {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .container {
+        width: min(calc(100% - 22px), var(--max));
+      }
+
+      .hero {
+        padding-top: 36px;
+      }
+
+      .hero-card {
+        border-radius: 26px;
+      }
+
+      .category-bar {
+        grid-template-columns: 1fr;
+      }
+
+      .modal-body {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a href="#inicio" class="brand" aria-label="Ir al inicio">
+        <div class="brand-mark">E4</div>
+        <div>
+          <div>Ejemplo 4</div>
+        </div>
+      </a>
+
+      <nav class="nav-links" aria-label="Navegación principal">
+        <a class="nav-link" href="#inicio">Inicio</a>
+        <a class="nav-link" href="#carta">Carta</a>
+        <a class="nav-link" href="#seleccion">Selección</a>
+        <a class="nav-link" href="#info">Info</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="container">
+        <div class="hero-card">
+          <div class="hero-overlay"></div>
+          <div class="hero-content">
+            <div class="eyebrow">Carta digital premium</div>
+            <h1>Una experiencia gastronómica para recordar.</h1>
+            <p class="hero-text">
+              Bienvenido a <strong>Ejemplo 4</strong>. Explora cada apartado de la carta,
+              descubre fotos de cada plato y pulsa sobre cualquier comida para ver sus ingredientes,
+              descripción y alérgenos.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#carta">Ver carta</a>
+              <button class="btn btn-secondary" type="button" id="scrollToFeatured">Ver destacados</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="carta">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">Carta interactiva</h2>
+            <p class="section-subtitle">
+              Pulsa en una categoría para mostrar sus platos. Después, toca cualquier comida para abrir su ficha completa con ingredientes y detalles.
+            </p>
+          </div>
+        </div>
+
+        <div class="category-bar" id="categoryBar"></div>
+      </div>
+    </section>
+
+    <section class="section" id="seleccion">
+      <div class="container menu-layout">
+        <aside class="sidebar" id="info">
+          <h3 class="sidebar-title">Apartados de la carta</h3>
+          <p class="sidebar-text">
+            Esta zona cambia automáticamente según la categoría seleccionada. Ideal para una carta web elegante en GitHub Pages.
+          </p>
+          <div class="sidebar-list" id="sidebarList"></div>
+        </aside>
+
+        <div class="menu-panel">
+          <div class="menu-top">
+            <div>
+              <h3 id="currentCategoryTitle">Entrantes</h3>
+              <p id="currentCategoryText">Selección inicial de platos para abrir el apetito.</p>
+            </div>
+            <div class="counter" id="dishCounter">0 platos</div>
+          </div>
+
+          <div class="dish-grid" id="dishGrid"></div>
+
+          <div class="note-box">
+            <strong>Importante:</strong> ahora mismo he dejado una carta premium de ejemplo completamente funcional.
+            Cuando sustituyas las categorías y platos por los de tu imagen, todo seguirá funcionando igual.
+          </div>
+
+          <div class="cta-banner">
+            <div>
+              <h4>¿Quieres dejarla exacta con tu imagen?</h4>
+              <p>Basta con reemplazar las categorías y platos del objeto <strong>menuData</strong> del código.</p>
+            </div>
+            <a href="#inicio" class="btn btn-primary">Volver arriba</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-card">
+        <div>
+          <strong>Ejemplo 4</strong><br />
+          Carta web premium diseñada para una experiencia visual elegante y moderna.
+        </div>
+        <div>
+          Consejo: súbela como <strong>index.html</strong> a GitHub Pages y funcionará sin instalar nada.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="modal" id="dishModal" aria-hidden="true">
+    <div class="modal-backdrop" data-close="true"></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-grid">
+        <div class="modal-media">
+          <img id="modalImage" src="" alt="Imagen del plato" />
+        </div>
+        <div class="modal-body">
+          <div class="modal-top">
+            <div>
+              <div class="modal-price" id="modalPrice"></div>
+              <h3 class="modal-title" id="modalTitle"></h3>
+            </div>
+            <button class="close-btn" id="closeModal" aria-label="Cerrar">×</button>
+          </div>
+
+          <p class="modal-desc" id="modalDescription"></p>
+          <p class="modal-meta" id="modalMeta"></p>
+
+          <div class="ingredients">
+            <h4>Ingredientes</h4>
+            <div class="ingredient-list" id="modalIngredients"></div>
+          </div>
+
+          <div class="allergens">
+            <h4>Alérgenos</h4>
+            <div class="allergen-list" id="modalAllergens"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const menuData = [
+      {
+        id: 'entrantes',
+        name: 'Entrantes',
+        icon: '🥗',
+        short: 'Para empezar',
+        description: 'Sabores ligeros, frescos y elegantes para abrir la experiencia.',
+        items: [
+          {
+            name: 'Burrata cremosa con tomates asados',
+            price: '13,50 €',
+            badge: 'Top ventas',
+            prep: 'Preparación suave · Ideal para compartir',
+            description: 'Burrata fresca con tomates cherry confitados, aceite de albahaca y pan crujiente artesanal.',
+            ingredients: ['Burrata', 'Tomates cherry', 'Albahaca', 'Aceite de oliva virgen extra', 'Pan artesanal', 'Sal en escamas'],
+            allergens: ['Lácteos', 'Gluten'],
+            image: 'https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?auto=format&fit=crop&w=1200&q=80'
+          },
+          {
+            name: 'Carpaccio de ternera trufado',
+            price: '15,90 €',
+            badge: 'Chef recomienda',
+            prep: 'Corte fino · Sabor intenso',
+            description: 'Láminas de ternera con emulsión trufada, parmesano curado, rúcula fresca y brotes tiernos.',
+            ingredients: ['Ternera', 'Trufa', 'Parmesano', 'Rúcula', 'Mostaza suave', 'Aceite de oliva'],
+            allergens: ['Lácteos', 'Mostaza'],
+            image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=80'
+          },
+          {
+            name: 'Croquetas cremosas de jamón ibérico',
+            price: '11,80 €',
+            badge: 'Tradicional',
+            prep: 'Crujientes por fuera · Cremosas por dentro',
+            description: 'Croquetas artesanas con bechamel sedosa y jamón ibérico, servidas recién hechas.',
+            ingredients: ['Jamón ibérico', 'Leche', 'Harina', 'Mantequilla', 'Pan rallado', 'Huevo'],
+            allergens: ['Lácteos', 'Gluten', 'Huevo'],
+            image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=1200&q=80'
+          },
+          {
+            name: 'Tartar de salmón con aguacate',
+            price: '14,20 €',
+            badge: 'Fresco',
+            prep: 'Marinado ligero',
+            description: 'Dados de salmón marinado con aguacate, lima, sésamo tostado y toque de soja.',
+            ingredients: ['Salmón', 'Aguacate', 'Lima', 'Sésamo', 'Soja', 'Cebollino'],
+            allergens: ['Pescado', 'Sésamo', 'Soja'],
+            image: 'https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1200&q=80'
+          }
+        ]
+      },
+      {
+        id: 'principales',
+        name: 'Principales',
+        icon: '🍽️',
+        short: 'Platos estrella',
+        description: 'Creaciones equilibradas con producto, técnica y mucha personalidad.',
+        items: [
+          {
+            name: 'Solomillo premium con parmentier',
+            price: '24,90 €',
+            badge: 'Premium',
+            prep: 'Punto a elegir',
+            description: 'Solomillo de vacuno a la parrilla con crema de patata, salsa de vino tinto y verduras glaseadas.',
+            ingredients: ['Solomillo de vacuno', 'Patata', 'Mantequilla', 'Vino tinto', 'Zanahoria baby', 'Espárragos'],
+            allergens: ['Lácteos', 'Sulfitos'],
+            image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=80'
+          },
+          {
+            name: 'Arroz meloso de marisco',
+            price: '21,50 €',
+            badge: 'Mar y sabor',
+            prep: 'Meloso · Intenso',
+            description: 'Arroz cocinado lentamente con caldo de marisco, gambones, sepia y mejillones.',
+            ingredients: ['Arroz', 'Gambones', 'Sepia', 'Mejillones', 'Caldo de marisco', 'Pimiento rojo'],
+            allergens: ['Crustáceos', 'Moluscos', 'Pescado'],
+            image: 'https://images.unsplash.com/photo-1515443961218-a51367888e4b?auto=format&fit=crop&w=1200&q=80'
+          },
+          {
+            name: 'Lubina al horno con cítricos',
+            price: '22,40 €',
+            badge: 'Ligero',
+            prep: 'Horno · Acabado cítrico',
+            description: 'Lubina entera al horno con limón, naranja, hinojo tierno y patata panadera.',
+            ingredients: ['Lubina', 'Limón', 'Naranja', 'Hinojo', 'Patata', 'Aceite de oliva'],
+            allergens: ['Pescado'],
+            image: 'https://images.unsplash.com/photo-1559847844-5315695dadae?auto=format&fit=crop&w=1200&q=80'
+          },
+          {
+            name: 'Pasta fresca de setas y trufa',
+            price: '18,90 €',
+            badge: 'Vegetariano',
+            prep: 'Cremoso',
+            description: 'Tagliatelle fresca con salsa cremosa de setas, trufa negra y parmesano.',
+            ingredients: ['Pasta fresca', 'Setas', 'Trufa negra', 'Nata', 'Parmesano', 'Pimienta negra'],
+            allergens: ['Gluten', 'Lácteos', 'Huevo'],
+            image: 'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?auto=format&fit=crop&w=1200&q=80'
+          }
+        ]
+      },
+      {
+        id: 'burgers',
+        name: 'Burgers',
+        icon: '🍔',
+        short: 'Más contundentes',
+        description: 'Hamburguesas gourmet con panes artesanos y combinaciones potentes.',
+        items: [
+          {
+            name: 'Burger Black Angus Signature',
+            price: '16,90 €',
+            badge: 'Best seller',
+            prep: 'Doble smash opcional',
+            description: 'Carne Black Angus, cheddar madurado, bacon crujiente, cebolla caramelizada y salsa especial.',
+            ingredients: ['Pan brioche', 'Carne Black Angus', 'Cheddar', 'Bacon', 'Cebolla caramelizada', 'Salsa especial'],
+            allergens: ['Gluten', 'Lácteos', 'Huevo'],
+            image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1200&q=80'
+          },
+          {
+            name: 'Burger Trufada de pollo crujiente',
+            price: '15,80 €',
+            badge: 'Crujiente',
+            prep: 'Salsa suave',
+            description: 'Pechuga de pollo empanada, mayonesa trufada, queso havarti y rúcula.',
+            ingredients: ['Pan brioche', 'Pollo', 'Harina', 'Huevo', 'Havarti', 'Mayonesa trufada', 'Rúcula'],
+            allergens: ['Gluten', 'Huevo', 'Lácteos'],
+            image: 'https://images.unsplash.com/photo-1550317138-10000687a72b?auto=format&fit=crop&w=1200&q=80'
+          },
+          {
+            name: 'Burger Veggie Mediterránea',
+            price: '14,90 €',
+            badge: 'Veggie',
+            prep: 'Fresca y equilibrada',
+            description: 'Burger vegetal con hummus, calabacín a la plancha, tomate seco y espinaca baby.',
+            ingredients: ['Pan de semillas', 'Burger vegetal', 'Hummus', 'Calabacín', 'Tomate seco', 'Espinaca baby'],
+            allergens: ['Gluten', 'Sésamo'],
+            image: 'https://images.unsplash.com/photo-1525059696034-4967a8e1dca2?auto=format&fit=crop&w=1200&q=80'
+          }
+        ]
+      },
+      {
+        id: 'postres',
+        name: 'Postres',
+        icon: '🍰',
+        short: 'El final perfecto',
+        description: 'Dulces con presencia, textura y un gran cierre de experiencia.',
+        items: [
+          {
+            name: 'Tarta de queso cremosa al horno',
+            price: '7,50 €',
+            badge: 'Favorita',
+            prep: 'Cremosa',
+            description: 'Tarta de queso horneada lentamente con centro fundente y coulis de frutos rojos.',
+            ingredients: ['Queso crema', 'Huevos', 'Azúcar', 'Nata', 'Galleta', 'Frutos rojos'],
+            allergens: ['Lácteos', 'Huevo', 'Gluten'],
+            image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=1200&q=80'
+          },
+          {
+            name: 'Coulant de chocolate con helado',
+            price: '7,90 €',
+            badge: 'Chocolate lovers',
+            prep: 'Corazón fundente',
+            description: 'Bizcocho de chocolate caliente con interior líquido y helado artesano de vainilla.',
+            ingredients: ['Chocolate negro', 'Mantequilla', 'Harina', 'Huevo', 'Azúcar', 'Helado de vainilla'],
+            allergens: ['Gluten', 'Lácteos', 'Huevo'],
+            image: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=1200&q=80'
+          },
+          {
+            name: 'Torrija caramelizada con crema inglesa',
+            price: '8,10 €',
+            badge: 'Tradición',
+            prep: 'Caliente',
+            description: 'Pan brioche infusionado, acabado caramelizado y crema inglesa aromática.',
+            ingredients: ['Pan brioche', 'Leche', 'Canela', 'Azúcar', 'Huevo', 'Vainilla'],
+            allergens: ['Gluten', 'Lácteos', 'Huevo'],
+            image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=1200&q=80'
+          }
+        ]
+      },
+      {
+        id: 'bebidas',
+        name: 'Bebidas',
+        icon: '🍸',
+        short: 'Brindis y maridaje',
+        description: 'Cócteles, refrescos y bebidas pensadas para acompañar cada momento.',
+        items: [
+          {
+            name: 'Mojito clásico premium',
+            price: '9,50 €',
+            badge: 'Cóctel',
+            prep: 'Muy fresco',
+            description: 'Ron blanco, lima fresca, hierbabuena, azúcar de caña y soda.',
+            ingredients: ['Ron blanco', 'Lima', 'Hierbabuena', 'Azúcar de caña', 'Soda', 'Hielo'],
+            allergens: ['Sin alérgenos destacados'],
+            image: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=1200&q=80'
+          },
+          {
+            name: 'Limonada de la casa',
+            price: '4,90 €',
+            badge: 'Refrescante',
+            prep: 'Hecha al momento',
+            description: 'Limonada natural con toque de menta y piel de limón.',
+            ingredients: ['Limón', 'Agua', 'Azúcar', 'Menta', 'Hielo'],
+            allergens: ['Sin alérgenos destacados'],
+            image: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=1200&q=80'
+          },
+          {
+            name: 'Copa de vino tinto reserva',
+            price: '5,80 €',
+            badge: 'Maridaje',
+            prep: 'Servido a temperatura óptima',
+            description: 'Selección de vino tinto reserva con notas especiadas y fruta madura.',
+            ingredients: ['Uva tinta'],
+            allergens: ['Sulfitos'],
+            image: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=1200&q=80'
+          }
+        ]
+      }
+    ];
+
+    const categoryBar = document.getElementById('categoryBar');
+    const sidebarList = document.getElementById('sidebarList');
+    const dishGrid = document.getElementById('dishGrid');
+    const currentCategoryTitle = document.getElementById('currentCategoryTitle');
+    const currentCategoryText = document.getElementById('currentCategoryText');
+    const dishCounter = document.getElementById('dishCounter');
+
+    const modal = document.getElementById('dishModal');
+    const modalImage = document.getElementById('modalImage');
+    const modalPrice = document.getElementById('modalPrice');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDescription = document.getElementById('modalDescription');
+    const modalMeta = document.getElementById('modalMeta');
+    const modalIngredients = document.getElementById('modalIngredients');
+    const modalAllergens = document.getElementById('modalAllergens');
+    const closeModal = document.getElementById('closeModal');
+
+    let activeCategory = menuData[0].id;
+
+    function renderCategories() {
+      categoryBar.innerHTML = menuData.map(category => `
+        <button class="category-btn ${category.id === activeCategory ? 'active' : ''}" data-category="${category.id}">
+          <div>
+            <strong>${category.name}</strong>
+            <small>${category.short}</small>
+          </div>
+          <div class="category-icon">${category.icon}</div>
+        </button>
+      `).join('');
+    }
+
+    function renderSidebar() {
+      sidebarList.innerHTML = menuData.map(category => `
+        <button class="sidebar-link ${category.id === activeCategory ? 'active' : ''}" data-category="${category.id}">
+          <span>${category.icon} ${category.name}</span>
+          <span>${category.items.length}</span>
+        </button>
+      `).join('');
+    }
+
+    function renderDishes() {
+      const category = menuData.find(c => c.id === activeCategory);
+      currentCategoryTitle.textContent = category.name;
+      currentCategoryText.textContent = category.description;
+      dishCounter.textContent = `${category.items.length} ${category.items.length === 1 ? 'plato' : 'platos'}`;
+
+      dishGrid.innerHTML = category.items.map((item, index) => `
+        <article class="dish-card" data-category="${category.id}" data-index="${index}" tabindex="0" aria-label="Abrir detalles de ${item.name}">
+          <div class="dish-image-wrap">
+            <img class="dish-image" src="${item.image}" alt="${item.name}" loading="lazy" />
+            <div class="dish-badge">${item.badge}</div>
+          </div>
+          <div class="dish-content">
+            <div class="dish-row">
+              <h4 class="dish-title">${item.name}</h4>
+              <div class="dish-price">${item.price}</div>
+            </div>
+            <p class="dish-desc">${item.description}</p>
+            <div class="dish-footer">
+              <span class="mini-chip">Ver ingredientes</span>
+              <span>${item.prep}</span>
+            </div>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    function setCategory(id) {
+      activeCategory = id;
+      renderCategories();
+      renderSidebar();
+      renderDishes();
+      bindCategoryEvents();
+      bindDishEvents();
+    }
+
+    function openDish(categoryId, itemIndex) {
+      const category = menuData.find(c => c.id === categoryId);
+      const item = category.items[itemIndex];
+
+      modalImage.src = item.image;
+      modalImage.alt = item.name;
+      modalPrice.textContent = item.price;
+      modalTitle.textContent = item.name;
+      modalDescription.textContent = item.description;
+      modalMeta.textContent = `${category.name} · ${item.prep}`;
+
+      modalIngredients.innerHTML = item.ingredients.map(ingredient => `
+        <span class="ingredient-chip">${ingredient}</span>
+      `).join('');
+
+      modalAllergens.innerHTML = item.allergens.map(allergen => `
+        <span class="allergen-chip">${allergen}</span>
+      `).join('');
+
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeDishModal() {
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    function bindCategoryEvents() {
+      document.querySelectorAll('[data-category]').forEach(el => {
+        if (el.classList.contains('category-btn') || el.classList.contains('sidebar-link')) {
+          el.addEventListener('click', () => setCategory(el.dataset.category));
+        }
+      });
+    }
+
+    function bindDishEvents() {
+      document.querySelectorAll('.dish-card').forEach(card => {
+        const handler = () => openDish(card.dataset.category, Number(card.dataset.index));
+        card.addEventListener('click', handler);
+        card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handler();
+          }
+        });
+      });
+    }
+
+    document.getElementById('scrollToFeatured').addEventListener('click', () => {
+      document.getElementById('seleccion').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    closeModal.addEventListener('click', closeDishModal);
+    modal.addEventListener('click', (e) => {
+      if (e.target.dataset.close === 'true') closeDishModal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('open')) {
+        closeDishModal();
+      }
+    });
+
+    renderCategories();
+    renderSidebar();
+    renderDishes();
+    bindCategoryEvents();
+    bindDishEvents();
+  </script>
+</body>
+</html>
